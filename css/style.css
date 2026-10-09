@@ -1,0 +1,552 @@
+/* ============================================================
+ * css/style.css — To-Do List Life Dashboard
+ * Uses CSS Custom Properties for light/dark theming.
+ * Dark mode is triggered by class `dark-mode` on <html> or <body>.
+ * ============================================================ */
+
+/* ─── CSS Custom Properties — Light Mode (default) ──────────── */
+:root {
+  --color-bg: #f0f2f5;
+  --color-surface: #ffffff;
+  --color-text: #1a1a2e;
+  --color-text-muted: #6b7280;
+  --color-accent: #4a90e2;
+  --color-accent-hover: #357abd;
+  --color-border: #d1d5db;
+  --color-error: #dc2626;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-completed: #9ca3af;
+
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --transition: 150ms ease;
+  --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* ─── Dark Mode — applied via html.dark-mode or body.dark-mode ─ */
+html.dark-mode,
+html.dark-mode body {
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-text: #e2e8f0;
+  --color-text-muted: #94a3b8;
+  --color-accent: #60a5fa;
+  --color-accent-hover: #93c5fd;
+  --color-border: #334155;
+  --color-error: #f87171;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-completed: #475569;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode {
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-text: #e2e8f0;
+  --color-text-muted: #94a3b8;
+  --color-accent: #60a5fa;
+  --color-accent-hover: #93c5fd;
+  --color-border: #334155;
+  --color-error: #f87171;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-completed: #475569;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── Reset & Base ──────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+/* ─── Layout ─────────────────────────────────────────────────── */
+.dashboard-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow);
+}
+
+.dashboard-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* Two-column layout for medium screens and up */
+@media (min-width: 768px) {
+  .dashboard-main {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  #greeting-section {
+    grid-column: 1 / -1;
+  }
+
+  #todo-section {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ─── Widget Cards ───────────────────────────────────────────── */
+.widget {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.widget h2 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+/* ─── Greeting Section ───────────────────────────────────────── */
+#greeting-section {
+  text-align: center;
+}
+
+#clock {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--color-accent);
+}
+
+#date {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+  margin-bottom: 12px;
+}
+
+#greeting-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+#name-form {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+#username-input {
+  flex: 1;
+  min-width: 160px;
+  max-width: 280px;
+}
+
+#edit-name-btn {
+  font-size: 0.875rem;
+  background: transparent;
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+}
+
+#edit-name-btn:hover {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+#greeting-error {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  min-height: 1.25rem;
+  margin-top: 4px;
+}
+
+/* ─── Focus Timer Section ────────────────────────────────────── */
+#timer-section {
+  text-align: center;
+}
+
+#timer-display {
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+#timer-status {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+  min-height: 1.4em;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+#timer-status.running {
+  color: var(--color-success);
+}
+
+#timer-status.stopped {
+  color: var(--color-warning);
+}
+
+.timer-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* ─── To-Do Section ──────────────────────────────────────────── */
+#todo-section {}
+
+.todo-input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.todo-input-row input {
+  flex: 1;
+}
+
+#task-error {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  min-height: 1.25rem;
+  margin-bottom: 8px;
+}
+
+#task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  transition: opacity var(--transition);
+}
+
+.task-item.completed {
+  opacity: 0.55;
+}
+
+.task-item.completed .task-text {
+  text-decoration: line-through;
+  color: var(--color-completed);
+}
+
+.task-checkbox {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.task-text {
+  flex: 1;
+  font-size: 0.9375rem;
+  word-break: break-word;
+}
+
+.task-edit-input {
+  flex: 1;
+  font-size: 0.9375rem;
+}
+
+.task-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.btn-edit,
+.btn-delete,
+.btn-save-edit,
+.btn-cancel-edit {
+  font-size: 0.8125rem;
+  padding: 6px 10px;
+}
+
+.btn-delete {
+  background-color: transparent;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+}
+
+.btn-delete:hover {
+  background-color: var(--color-error);
+  color: #fff;
+}
+
+.btn-edit {
+  background-color: transparent;
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+}
+
+.btn-edit:hover {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+/* ─── Quick Links Section ────────────────────────────────────── */
+#quicklinks-section {}
+
+.quicklinks-input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+#link-error {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  min-height: 1.25rem;
+}
+
+#links-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.quick-link-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 6px 12px 6px 14px;
+}
+
+.quick-link-item a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.quick-link-item a:hover {
+  text-decoration: underline;
+}
+
+.btn-delete-link {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 2px 4px;
+  line-height: 1;
+  min-width: 24px;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-delete-link:hover {
+  color: var(--color-error);
+}
+
+/* ─── Shared Form Controls ───────────────────────────────────── */
+input[type="text"],
+input[type="url"] {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 0.9375rem;
+  font-family: var(--font);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  min-height: 44px;
+}
+
+input[type="text"]:focus,
+input[type="url"]:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  font-size: 0.9375rem;
+  font-family: var(--font);
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius);
+  background-color: var(--color-accent);
+  color: #ffffff;
+  transition: background-color var(--transition), opacity var(--transition);
+  min-height: 44px;
+  min-width: 44px;
+  white-space: nowrap;
+}
+
+button:hover:not(:disabled) {
+  background-color: var(--color-accent-hover);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ─── Theme Toggle Button ────────────────────────────────────── */
+#theme-toggle {
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  font-size: 0.9rem;
+  padding: 8px 14px;
+  min-height: 44px;
+}
+
+#theme-toggle:hover {
+  background-color: var(--color-border);
+}
+
+/* ─── Notification / Toast ───────────────────────────────────── */
+#notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 320px;
+  pointer-events: none;
+}
+
+.toast {
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-md);
+  pointer-events: auto;
+  animation: toast-in 200ms ease forwards;
+  color: #fff;
+}
+
+.toast.success {
+  background-color: var(--color-success);
+}
+
+.toast.error {
+  background-color: var(--color-error);
+}
+
+.toast.warning {
+  background-color: var(--color-warning);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}
+
+.toast.hiding {
+  animation: toast-out 200ms ease forwards;
+}
+
+/* ─── Responsive — narrow (320px) ───────────────────────────── */
+@media (max-width: 480px) {
+  #clock {
+    font-size: 2.25rem;
+  }
+
+  #timer-display {
+    font-size: 2.75rem;
+  }
+
+  .timer-controls {
+    flex-wrap: wrap;
+  }
+
+  .task-item {
+    flex-wrap: wrap;
+  }
+
+  .task-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
